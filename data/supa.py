@@ -10,3 +10,5 @@ url: str = SUPABASE_URL
 key: str = SUPABASE_KEY
 supabase_client: Client = create_client(url, key)
 
+if __name__ == "__main__":
+    pass

@@ -1,19 +1,17 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
+
 from langchain.memory import ChatMessageHistory
-from langchain.schema import (HumanMessage, SystemMessage)
+from langchain.schema import (HumanMessage)
 from langchain.schema import messages_to_dict
 
-from langchain.agents import create_pandas_dataframe_agent
-from langchain.chat_models import ChatOpenAI
-from langchain.agents.agent_types import AgentType
 
 from data.message_utils import save_chat_to_supabase, load_chat_from_supabase, save_message_to_supabase, get_threads
+from data.user_utils import get_current_user, sign_up, sign_in_w_password, sign_out
+from utils.agents import chat_agent
 
-openai_api_key = load_dotenv()
+load_dotenv()
 
 FOT_PROMPT = """
 Imagine three different experts are answering this question.
@@ -30,19 +28,30 @@ Continue until the experts agree on the single most likely location.
 """
 app = FastAPI()
 
+current_user = get_current_user()
+print(current_user)
 threads = get_threads()
+print(threads)
 history = ChatMessageHistory()
-memory = ConversationBufferMemory()
+print(history)
 chatgpt = ChatOpenAI(model_name="gpt-3.5-turbo-16k")
 batch_agent_msgs = []
-convo = ConversationChain(
-    llm=chatgpt,
-    memory=memory
-)
 
 @app.get("/")
 def welcome():
     return {"Message": "Hello"}
+
+@app.post("/signup")
+def register(email: str, password: str, username: str):
+    return sign_up(email, password, username)
+
+@app.post("/signin")
+def sign_in(email: str, password: str):
+    return sign_in_w_password(email, password)
+
+@app.post("/signout")
+def signout():
+    return sign_out()
 
 @app.post("/chat")
 def chat(message: str):
@@ -51,39 +60,32 @@ def chat(message: str):
     return response
 
 @app.get("/chat-history")
-def get_threads():
+def get_chat_threads():
     if threads:
         return threads
-    return "Error 404! No chat history"
+    return {"error": 404, "message": "Error 404! No chat history"}
 
 @app.post("/chat/{chat_id}/save")
 def save_chat(chat_id: int):
-    if chat_id in threads:
+    if chat_id == threads.data[chat_id].chat_id:
         return "Error! chat alread saved."
     response = save_chat_to_supabase(messages_to_dict(history.messages), chat_id)
     return response
 
 @app.get("/chat-history/{chat_id}")
-def get_chat_history(chat_id: int):
-    if chat_id in threads:
+def get_a_chats_history(chat_id: int):
+    if chat_id in threads.data:
         load_chat_from_supabase(chat_id)
-        return threads[chat_id]
+        return threads.data[chat_id]
     return "404!"
 
 @app.post("/chat_chain")
 def chat_w_memory(message: str):
-    return convo.predict(input=message)
+    return chat_agent().predict(input=message)
 
-def pandas_agent():
-    agent = create_pandas_dataframe_agent(
-    ChatOpenAI(temperature=0, client="gpt-3.5-turbo-0613"),
-    df,
-    verbose=True,
-    agent_type=AgentType.OPENAI_FUNCTIONS,
-    )
-    return agent
 
-@app.post("/pandas_agent")
-def chat_w_pandas_agent(message: str):
-    response = pandas_agent().run(message)
-    return response
+
+# @app.post("/pandas_agent")
+# def chat_w_pandas_agent(message: str):
+#     response = pandas_agent().run(message)
+#     return response
