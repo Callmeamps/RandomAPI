@@ -6,3 +6,6 @@ openai
 requests
 python-dotenv
 supabase
+playwright
+gpt-engineer
+deeplake
