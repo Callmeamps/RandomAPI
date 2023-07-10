@@ -1,7 +1,6 @@
 fastapi[all]
 langchain
 chainlit
-huggingface-hub
 openai
 requests
 python-dotenv

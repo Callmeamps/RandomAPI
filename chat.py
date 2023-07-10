@@ -28,8 +28,8 @@ Continue until the experts agree on the single most likely location.
 """
 app = FastAPI()
 
-current_user = get_current_user()
-print(current_user)
+# current_user = get_current_user()
+# print(current_user)
 threads = get_threads()
 print(threads)
 history = ChatMessageHistory()
