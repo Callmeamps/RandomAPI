@@ -1,6 +1,6 @@
 fastapi[all]
 langchain
-chainlit
+google-search-results
 openai
 requests
 python-dotenv

@@ -2,9 +2,10 @@
 import subprocess
 from dotenv import load_dotenv
 
-# Pandas Imports
-from langchain.agents import create_pandas_dataframe_agent, initialize_agent
-from langchain.agents.agent_types import AgentType
+# # Pandas Imports
+# from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+# from langchain.agents import initialize_agent
+# from langchain.agents.agent_types import AgentType
 
 # Playwright Imports
 from .tools import playwright_tools, router_tools, files_tools
@@ -13,7 +14,7 @@ from .tools import playwright_tools, router_tools, files_tools
 from langchain.chains import ConversationChain
 
 # VectorStore Imports
-from langchain import VectorDBQA
+from langchain.chains import VectorDBQA
 from langchain.agents.agent_toolkits import create_vectorstore_router_agent
 
 from .models import CHATGPT
@@ -48,15 +49,15 @@ def chat_agent():
     )
     return chat_chain
 
-def pandas_agent(source):
-    agent = create_pandas_dataframe_agent(
-    CHATGPT,
-    source,
-    verbose=True,
-    agent_type=AgentType.OPENAI_FUNCTIONS,
-    return_intermediate_steps=True,
-    )
-    return agent
+# def pandas_agent(source):
+#     agent = create_pandas_dataframe_agent(
+#     CHATGPT,
+#     source,
+#     verbose=True,
+#     agent_type=AgentType.OPENAI_FUNCTIONS,
+#     return_intermediate_steps=True,
+#     )
+#     return agent
 
 def playwright_agent():
     agent_chain = initialize_agent(

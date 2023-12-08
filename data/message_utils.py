@@ -1,7 +1,7 @@
 from data.supa import supabase_client
 
 def load_chat_from_supabase(chat_id):
-    chat, count = supabase_client.table('chats').select(chat_id).execute()
+    chat, count = supabase_client.table('messages').select(chat_id).execute()
     if count is not None:
         return chat, count
     return chat
