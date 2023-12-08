@@ -39,5 +39,17 @@ def json_completion(system, user, seed=None):
         res = request.choices[0].message
         return res
 
+def image_gen(prompt, model="dall-e-3", _number=1):
+    response = client.images.generate(
+        model=model,
+        prompt=prompt,
+        size="1024x1024",
+        quality="standard",
+        n=_number,
+        )
+
+    image_url = response.data[0].url
+    return image_url
+
 if __name__ == '__main__':
     pass

@@ -5,7 +5,7 @@ from .utilities import json_completion
 
 def get_goal(platform, topic, required_result):
     res = json_completion(
-        system="You're help set goals, based on the information provided, create a list of goals for posts. Give your result as 'goal'",
+        system="You help set goals based on the information provided, create a list of goals for posts. Give your result as a single goal defined as 'goal'",
         user=f"Platform: {platform}, Topic: {topic} Results: {required_result}",
         seed=222123
     )
