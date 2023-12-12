@@ -1,0 +1,18 @@
+# Ignore Python bytecode files
+__pycache__
+
+# Ignore development files and directories
+.vscode
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.log
+*.sqlite
+
+# Ignore version control files and directories
+.git
+.gitignore
+
+# Ignore any other files or directories specific to your project that don't need to be included in the Docker image
+.env

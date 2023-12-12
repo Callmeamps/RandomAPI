@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ai-api:
+    image: callmeamps/ai-app:init
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=value
+      - SERPAPI_API_KEY=value
+      - SUPABASE_URL=value
+      - SUPABASE_KEY=value
+    # Uncomment the following line if you want to use an external requirements.txt file
+    # volumes:
+    #   - ./requirements.txt:/app/requirements.txt
