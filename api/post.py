@@ -36,5 +36,6 @@ def generate_post_w_image(title: str, topic: str, post_format: str, platform: st
         title: title,
         topic: topic,
         post_data: response,
-        platform: platform
+        platform: platform,
+        image: response
         }

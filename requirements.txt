@@ -1,4 +1,5 @@
-fastapi[all]
+fastapi
+uvicorn
 langchain
 google-search-results
 openai
@@ -6,5 +7,4 @@ requests
 python-dotenv
 supabase
 playwright
-gpt-engineer
 deeplake

@@ -1,5 +1,5 @@
 # Use the official Python image as the base image
-FROM python:3.9
+FROM python:3.12
 
 # Set the working directory in the container
 WORKDIR /AI_API
@@ -8,7 +8,7 @@ WORKDIR /AI_API
 COPY requirements.txt .
 
 # Install the required dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -U
 
 # Copy the FastAPI project files into the container
 COPY . .
