@@ -69,8 +69,8 @@ def playwright_agent():
         )
     return agent_chain
 
-def gpt_engineer_agent(request):
-    subprocess.run(["gpt-engineer", request], check=True)
+# def gpt_engineer_agent(request):
+#     subprocess.run(["gpt-engineer", request], check=True)
 
 def file_agent():
     agent_chain = initialize_agent(

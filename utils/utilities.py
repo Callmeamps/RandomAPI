@@ -1,10 +1,24 @@
 import os
 from dotenv import load_dotenv
+import requests
 
 from openai import OpenAI
 from langchain.utilities import SerpAPIWrapper
 
 load_dotenv()
+
+
+USERNAME = 'lifehouselabs'  # replace with your Twitter username
+TWITTER_BEARER_TOKEN = os.getenv('TWITTER_BEARER_TOKEN')  # replace with your App BEARER Token
+
+url = f"https://api.twitter.com/2/users/by/username/{USERNAME}"
+headers = {"Authorization": f"Bearer {TWITTER_BEARER_TOKEN}"}
+
+response = requests.get(url, headers=headers)
+
+# The response will be in JSON format
+print(response.json())
+
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 SERPAPI_API_KEY = os.getenv('SERPAPI_API_KEY')
